@@ -1,8 +1,8 @@
-#summary One-sentence summary of this page.
+#summary High level view of the project
 
 = Introduction =
 
-Add your content here.
+gae2D consists of a number of altered open source projects, adapted to provide the necessary parts of Java awt available in order to be able to generate rendered images on Google App Engine.
 
 
 = Details =
