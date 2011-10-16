@@ -22,7 +22,6 @@ package com.jgraph.gaeawt.java.awt.image;
 import org.apache.harmony.awt.gl.image.OrdinaryWritableRaster;
 import org.apache.harmony.awt.internal.nls.Messages;
 
-import com.jgraph.gaeawt.java.awt.Point;
 import com.jgraph.gaeawt.java.awt.Rectangle;
 
 public class Raster
@@ -46,25 +45,13 @@ public class Raster
 
 	protected int width;
 
-	public static WritableRaster createPackedRaster(int[] dataBuffer,
-			int w, int h, int scanlineStride, int bandMasks[], Point location)
+	public static WritableRaster createPackedRaster(int[] dataBuffer, int w,
+			int h, int scanlineStride, int bandMasks[])
 	{
 		if (w <= 0 || h <= 0)
 		{
 			// awt.22E=w or h is less than or equal to zero
 			throw new RasterFormatException(Messages.getString("awt.22E")); //$NON-NLS-1$
-		}
-
-		if (location == null)
-		{
-			location = new Point(0, 0);
-		}
-
-		if ((long) location.x + w > Integer.MAX_VALUE
-				|| (long) location.y + h > Integer.MAX_VALUE)
-		{
-			// awt.276=location.x + w or location.y + h results in integer overflow
-			throw new RasterFormatException(Messages.getString("awt.276")); //$NON-NLS-1$
 		}
 
 		if (bandMasks == null)
@@ -80,24 +67,12 @@ public class Raster
 	}
 
 	public static WritableRaster createPackedRaster(int w, int h,
-			int bandMasks[], Point location)
+			int bandMasks[])
 	{
 		if (w <= 0 || h <= 0)
 		{
 			// awt.22E=w or h is less than or equal to zero
 			throw new RasterFormatException(Messages.getString("awt.22E")); //$NON-NLS-1$
-		}
-
-		if (location == null)
-		{
-			location = new Point(0, 0);
-		}
-
-		if ((long) location.x + w > Integer.MAX_VALUE
-				|| (long) location.y + h > Integer.MAX_VALUE)
-		{
-			// awt.276=location.x + w or location.y + h results in integer overflow
-			throw new RasterFormatException(Messages.getString("awt.276")); //$NON-NLS-1$
 		}
 
 		if (bandMasks == null)
@@ -108,11 +83,28 @@ public class Raster
 
 		int[] data = new int[w * h];
 
-		return createPackedRaster(data, w, h, w, bandMasks, location);
+		return createPackedRaster(data, w, h, w, bandMasks);
 	}
 
-	public static WritableRaster createWritableRaster(SampleModel sm,
-			int[] db)
+	public Raster createChild(int parentX, int parentY, int width, int height,
+			int bandList[])
+	{
+		SampleModel childModel;
+
+		if (bandList == null)
+		{
+			childModel = sampleModel;
+		}
+		else
+		{
+			childModel = sampleModel.createSubsetSampleModel(bandList);
+		}
+
+		return new Raster(childModel, dataBuffer, new Rectangle(0, 0, width,
+				height), this);
+	}
+
+	public static WritableRaster createWritableRaster(SampleModel sm, int[] db)
 	{
 		return new OrdinaryWritableRaster(sm, db);
 	}
@@ -164,9 +156,8 @@ public class Raster
 
 	protected Raster(SampleModel sampleModel)
 	{
-		this(sampleModel, sampleModel.createDataBuffer(), new Rectangle(
-				0, 0, sampleModel.getWidth(),
-				sampleModel.getHeight()), null);
+		this(sampleModel, sampleModel.createDataBuffer(), new Rectangle(0, 0,
+				sampleModel.getWidth(), sampleModel.getHeight()), null);
 	}
 
 	public WritableRaster createCompatibleWritableRaster()
@@ -196,10 +187,11 @@ public class Raster
 	{
 		return dataBuffer;
 	}
-	
+
 	public void setDataBuffer(int[] buffer)
 	{
-		dataBuffer = buffer;;
+		dataBuffer = buffer;
+		;
 	}
 
 	public int[] getDataElements(int x, int y, int w, int h)

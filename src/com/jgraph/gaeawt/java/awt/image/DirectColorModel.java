@@ -103,8 +103,7 @@ public class DirectColorModel extends PackedColorModel
 
 		int bandMasks[] = componentMasks.clone();
 
-		return Raster.createPackedRaster(w, h, bandMasks,
-				null);
+		return Raster.createPackedRaster(w, h, bandMasks);
 	}
 
 	@Override

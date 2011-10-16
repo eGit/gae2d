@@ -104,14 +104,14 @@ public class JpegDecoder extends BinaryFileParser implements JpegUtils.Visitor,
                 colorModel = new DirectColorModel(24,
                         0x00ff0000, 0x0000ff00, 0x000000ff);
                 raster = WritableRaster.createPackedRaster(sofnSegment.width, sofnSegment.height,
-                        new int[]{0x00ff0000,0x0000ff00,0x000000ff}, null);
+                        new int[]{0x00ff0000,0x0000ff00,0x000000ff});
             }
             else if (sofnSegment.numberOfComponents == 1)
             {
                 colorModel = new DirectColorModel(24,
                         0x00ff0000, 0x0000ff00, 0x000000ff);
                 raster = WritableRaster.createPackedRaster(sofnSegment.width, sofnSegment.height,
-                        new int[]{0x00ff0000,0x0000ff00,0x000000ff}, null);
+                        new int[]{0x00ff0000,0x0000ff00,0x000000ff});
                 // FIXME: why do images come out too bright with CS_GRAY?
 //                colorModel = new ComponentColorModel(
 //                        ColorSpace.getInstance(ColorSpace.CS_GRAY), false, true,
