@@ -230,7 +230,7 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable
 			int masks[] = new int[] { 0x00ff0000, 0x0000ff00, 0x000000ff,
 					0xff000000 };
 			raster = Raster.createPackedRaster(rgbData, width, height, width,
-					masks, null);
+					masks);
 			iData = rgbData;
 			bData = null;
 		}

@@ -136,21 +136,20 @@ public class JavaBlitter implements Blitter
 						comp, bgcolor, clip);
 				break;
 			default:
-//				int srcW = srcSurf.getWidth();
-//				int srcH = srcSurf.getHeight();
-//
-//				int w = srcX + width < srcW ? width : srcW - srcX;
-//				int h = srcY + height < srcH ? height : srcH - srcY;
-//
-//				ColorModel srcCM = srcSurf.getColorModel();
-//				Raster srcR = srcSurf.getRaster().createChild(srcX, srcY, w, h,
-//						0, 0, null);
-//
-//				ColorModel dstCM = dstSurf.getColorModel();
-//				WritableRaster dstR = dstSurf.getRaster();
-//
-//				transformedBlit(srcCM, srcR, 0, 0, dstCM, dstR, dstX, dstY, w,
-//						h, sysxform, comp, bgcolor, clip);
+				int srcW = srcSurf.getWidth();
+				int srcH = srcSurf.getHeight();
+
+				int w = srcX + width < srcW ? width : srcW - srcX;
+				int h = srcY + height < srcH ? height : srcH - srcY;
+
+				ColorModel srcCM = srcSurf.getColorModel();
+				Raster srcR = srcSurf.getRaster().createChild(0, 0, w, h, null);
+
+				ColorModel dstCM = dstSurf.getColorModel();
+				WritableRaster dstR = dstSurf.getRaster();
+
+				transformedBlit(srcCM, srcR, 0, 0, dstCM, dstR, dstX, dstY, w,
+						h, sysxform, comp, bgcolor, clip);
 		}
 	}
 
